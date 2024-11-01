@@ -14,6 +14,11 @@ class _MyCheckboxState extends State<MyCheckbox> {
   bool isChecked4 = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
