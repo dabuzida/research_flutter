@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'my_checkbox.dart';
+import 'package:research_flutter/list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,10 +34,10 @@ class MyApp2 extends StatefulWidget {
 }
 
 class _MyApp2State extends State<MyApp2> {
-  final ScrollController _scrollController = ScrollController();
-  final ScrollController _scrollController2 = ScrollController();
+  final ScrollController _scrollControllerLeftList = ScrollController();
+  final ScrollController _scrollControllerRightContent = ScrollController();
 
-  Widget _currentTarget = Targets.values.first.widget;
+  Targets _currentTarget = Targets.values.last;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +46,21 @@ class _MyApp2State extends State<MyApp2> {
         Expanded(
           flex: 10,
           child: ListView.builder(
-            controller: _scrollController,
+            controller: _scrollControllerLeftList,
             itemCount: Targets.values.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                height: 100,
+                padding: const EdgeInsets.symmetric(vertical: 1.0),
+                // height: 100,
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      _currentTarget == Targets.values[index] ? Colors.amber : Colors.green,
+                    ),
+                  ),
                   child: Text(Targets.values[index].title),
                   onPressed: () {
-                    _currentTarget = Targets.values[index].widget;
+                    _currentTarget = Targets.values[index];
                     setState(() {});
                   },
                 ),
@@ -70,9 +74,9 @@ class _MyApp2State extends State<MyApp2> {
             children: <Widget>[
               Expanded(
                 child: ListView(
-                  controller: _scrollController2,
+                  controller: _scrollControllerRightContent,
                   children: <Widget>[
-                    _currentTarget,
+                    _currentTarget.widget,
                   ],
                 ),
               ),
@@ -82,23 +86,4 @@ class _MyApp2State extends State<MyApp2> {
       ],
     );
   }
-}
-
-enum Targets {
-  aa1('첫 페이지', Placeholder()),
-  aaa('checkbox', MyCheckbox()),
-  bbb2('1', MyCheckbox()),
-  bbb23('2', MyCheckbox()),
-  bb2b3('3', MyCheckbox()),
-  bb4b3('4', MyCheckbox()),
-  bb44b3('5', MyCheckbox()),
-  bb4b33('6', MyCheckbox()),
-  bb524b3('7', MyCheckbox()),
-  bbb53('8', MyCheckbox()),
-  ;
-
-  const Targets(this.title, this.widget);
-
-  final String title;
-  final Widget widget;
 }
