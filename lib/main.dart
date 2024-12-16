@@ -33,18 +33,19 @@ class MyApp2 extends StatefulWidget {
   State<MyApp2> createState() => _MyApp2State();
 }
 
+// TODO: flutter_research 프로젝트는 첫화면이 리스트고 주제별 항목이 존재. 누르면 해당 주제에 대한 리서치를 다룸
 class _MyApp2State extends State<MyApp2> {
   final ScrollController _scrollControllerLeftList = ScrollController();
   final ScrollController _scrollControllerRightContent = ScrollController();
 
-  Targets _currentTarget = Targets.values.last;
+  Targets _currentTarget = Targets.values.first;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(
-          flex: 10,
+        SizedBox(
+          width: 200,
           child: ListView.builder(
             controller: _scrollControllerLeftList,
             itemCount: Targets.values.length,
@@ -53,10 +54,18 @@ class _MyApp2State extends State<MyApp2> {
                 padding: const EdgeInsets.symmetric(vertical: 1.0),
                 // height: 100,
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
-                      _currentTarget == Targets.values[index] ? Colors.amber : Colors.green,
-                    ),
+                  // style: ButtonStyle(
+                  //   backgroundColor: WidgetStatePropertyAll(
+                  //     _currentTarget == Targets.values[index] ? Colors.blue : Colors.amber,
+                  //   ),
+                  //   // textStyle: WidgetStateProperty,
+                  //   // textStyle: Text(style: TextStyle(color:  _currentTarget == Targets.values[index] ? Colors.amber : Colors.grey,),),
+                  // ),
+                  style: ElevatedButton.styleFrom(
+                    // minimumSize: Size(300, 100), // 버튼 최소 크기: 300,100 (버튼 안의 내용물 크기에 따라 변동 가능)
+                    backgroundColor: _currentTarget == Targets.values[index] ? Colors.green : Colors.white, // 배경색: 파랑
+                    foregroundColor: _currentTarget == Targets.values[index] ? Colors.white : Colors.black, // 글자색: 흰색
+                    // textStyle: TextStyle(fontSize: 20) // 글자 size: 20
                   ),
                   child: Text(Targets.values[index].title),
                   onPressed: () {
@@ -68,6 +77,7 @@ class _MyApp2State extends State<MyApp2> {
             },
           ),
         ),
+        const VerticalDivider(color: Colors.grey),
         Expanded(
           flex: 90,
           child: Column(
